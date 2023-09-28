@@ -13,7 +13,7 @@
   Serial monitor baud rate is set at 9600.
 *******************************************************************************************************/
 
-#define LED1 8                                 //pin number for LED, set logic level high for on
+#define LED1 4                                 //pin number for LED, set logic level high for on
 
 #define Program_Version "V1.0"
 

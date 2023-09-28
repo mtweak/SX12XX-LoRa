@@ -70,8 +70,8 @@ const uint8_t DEVICE_SX1279 = 0x14;             //SX1279
 //them to match your own setup. You will also need to connect up the pins for the SPI bus, which on the
 //ESP32_Micro_Node are SCK on pin 18, MISO on pin 19 and MOSI on pin 23.
 
-#define NSS 5                                   //SX127X device select
-#define NRESET 27                               //SX127X reset pin
+#define NSS 13                                   //SX127X device select
+#define NRESET 4                               //SX127X reset pin
 #define DIO0 -1                                 //DIO0 pin on LoRa device, not used here so set to -1 
 #define DIO1 -1                                 //DIO1 pin on LoRa device, normally not used so set to -1 
 #define DIO2 -1                                 //DIO2 pin on LoRa device, normally not used so set to -1
@@ -86,7 +86,7 @@ const uint8_t DEVICE_SX1279 = 0x14;             //SX1279
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println(F("2_Register_Test_ESP32 Starting"));
 
   SPI.begin();

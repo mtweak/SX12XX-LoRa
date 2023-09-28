@@ -36,11 +36,20 @@
 
 SX127XLT LT;                                    //create a library class instance called LT
 
-#define NSS 10                                  //select pin on LoRa device
-#define NRESET 9                                //reset pin on LoRa device
-#define DIO0 3                                  //DIO0 pin on LoRa device, used for RX and TX done 
+
+//*********  Setup hardware pin definition here ! **************
+#define NSS 15                                  //lora device select
+#define SCK     14
+#define MISO    12
+#define MOSI    13
+#define SS      15
+#define RST     2  // Not used, but if LoRA doesn't initialize, try getting a wire to the LoRa module and pull RST down to 0V 
+#define DI0     2
+#define LORA_FREQUENCY 433E6  // Adjusted to 433MHz
 #define LORA_DEVICE DEVICE_SX1278               //we need to define the device we are using
 #define RXBUFFER_SIZE 255                       //RX buffer size
+
+//**************************************************************/
 
 uint32_t RXpacketCount;
 uint32_t errors;
@@ -54,14 +63,14 @@ int8_t  PacketSNR;                              //stores signal to noise ratio (
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println();
   Serial.println(F("4_LoRa_Receiver Starting"));
   Serial.println();
 
-  SPI.begin();
+  SPI.begin(SCK, MISO, MOSI, SS);
 
-  if (LT.begin(NSS, NRESET, DIO0, LORA_DEVICE))
+  if (LT.begin(NSS, RST, DI0, LORA_DEVICE))
   {
     Serial.println(F("LoRa Device found"));
     delay(1000);

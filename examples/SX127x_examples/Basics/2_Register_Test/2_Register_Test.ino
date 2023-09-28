@@ -75,8 +75,39 @@ const uint8_t REG_VERSION = 0x42;               //register containg version numb
 
 
 //*********  Setup hardware pin definition here ! **************
+/*
+//ESP32 CAM
+#define NSS 15                                  //lora device select
+#define SCK     14
+#define MISO    12
+#define MOSI    13
+#define SS      15
+#define RST     2  // Not used, but if LoRA doesn't initialize, try getting a wire to the LoRa module and pull RST down to 0V 
+#define DI0     2
+#define LORA_FREQUENCY 433E6  // Adjusted to 433MHz
+*/
 
-#define NSS 10                                  //lora device select
+/*
+//ESP32S3 WROOM
+#define NSS     41                                  //lora device select
+#define SCK     38
+#define MISO    39
+#define MOSI    40
+#define SS      41
+#define RST     2  // Not used, but if LoRA doesn't initialize, try getting a wire to the LoRa module and pull RST down to 0V 
+#define DI0     42
+#define LORA_FREQUENCY 433E6  // Adjusted to 433MHz
+*/
+
+//ESP32S3 WROOMv2
+#define NSS     38                                  //lora device select
+#define SCK     35
+#define MISO    36
+#define MOSI    37
+#define SS      38
+#define RST     2  // Not used, but if LoRA doesn't initialize, try getting a wire to the LoRa module and pull RST down to 0V 
+#define DI0     39
+#define LORA_FREQUENCY 433E6  // Adjusted to 433MHz
 
 //**************************************************************/
 
@@ -88,10 +119,21 @@ uint32_t frequency;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
+  while (!Serial);
+
   Serial.println(F("2_Register_Test Starting"));
 
-  SPI.begin();
+  Serial.print("MOSI: ");
+  Serial.println(MOSI);
+  Serial.print("MISO: ");
+  Serial.println(MISO);
+  Serial.print("SCK: ");
+  Serial.println(SCK);
+  Serial.print("SS: ");
+  Serial.println(SS);  
+
+  SPI.begin(SCK, MISO, MOSI, SS);
   SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
 
   //The begin function setups the hardware pins used by device and then checks if device is found
